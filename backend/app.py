@@ -92,7 +92,6 @@ def analyze_resume():
             response = model.generate_content(
                 prompt,
                 generation_config = genai.GenerationConfig(
-                    max_output_tokens=800,
                     temperature=0.2,
                 ))
             analysis = response.text
