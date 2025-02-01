@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, Github, Linkedin, Mail, Globe } from 'lucide-react';
 import AnalysisDisplay from '@/components/AnalysisDisplay';
+import { Analytics } from '@vercel/analytics/next';
 
 interface AnalysisResponse {
   analysis: string;
@@ -176,6 +177,7 @@ const ResumeAnalyzer = () => {
           </div>
         </div>
       </footer>
+      <Analytics/>
     </div>
   );
 };
