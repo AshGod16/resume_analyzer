@@ -1,0 +1,133 @@
+"use client";
+
+import React, { useState, ChangeEvent } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Upload } from 'lucide-react';
+
+interface AnalysisResponse {
+  analysis: string;
+}
+
+const ResumeAnalyzer = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [jobDescription, setJobDescription] = useState('');
+  const [analysis, setAnalysis] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleAnalyze = async () => {
+    if (!file || !jobDescription) {
+      alert('Please upload a resume and provide a job description');
+      return;
+    }
+
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append('resume', file);
+    formData.append('jobDescription', jobDescription);
+
+    try {
+      const response = await fetch('http://localhost:5000/analyze', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data: AnalysisResponse = await response.json();
+      setAnalysis(data.analysis);
+    } catch (error) {
+      console.error('Error:', error);
+      setAnalysis('Error analyzing resume. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="container mx-auto p-4 max-w-4xl">
+      <h1 className="text-3xl font-bold mb-8 text-center">AI Resume Analyzer</h1>
+      
+      <div className="grid gap-6">
+        {/* Resume Upload Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Upload Resume</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center w-full">
+              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <Upload className="w-8 h-8 mb-4 text-gray-500" />
+                  <p className="mb-2 text-sm text-gray-500">
+                    <span className="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p className="text-xs text-gray-500">PDF or DOCX (MAX. 10MB)</p>
+                </div>
+                <input
+                  type="file"
+                  className="hidden"
+                  accept=".pdf,.docx"
+                  onChange={handleFileChange}
+                />
+              </label>
+            </div>
+            {file && (
+              <p className="mt-2 text-sm text-gray-500">
+                Selected file: {file.name}
+              </p>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Job Description Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Job Description</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Textarea
+              placeholder="Paste the job description here..."
+              className="min-h-[200px]"
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+            />
+          </CardContent>
+        </Card>
+
+        {/* Analyze Button */}
+        <div className="flex justify-center">
+          <Button 
+            onClick={handleAnalyze} 
+            disabled={loading}
+            className="w-full max-w-xs"
+          >
+            {loading ? 'Analyzing...' : 'Analyze Resume'}
+          </Button>
+        </div>
+
+        {/* Analysis Section */}
+        {analysis && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Analysis Results</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="whitespace-pre-wrap">
+                {analysis}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default ResumeAnalyzer;
