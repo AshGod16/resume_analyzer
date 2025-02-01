@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from "@/components/ui/card";
 
 const AnalysisDisplay = ({ analysis }: { analysis: string }) => {
   // Helper function to convert markdown-style bold to JSX
