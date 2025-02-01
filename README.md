@@ -4,6 +4,10 @@ A modern web application that helps job seekers analyze their resumes against jo
 
 ![AI Resume Analyzer Screenshot](./assets/screenshot.png)
 
+## ⚡ Live Demo
+
+Check out the live demo: [AI Resume Analyzer](https://resume-analyzer-blond.vercel.app/)
+
 ## ✨ Features
 
 - **Resume Upload**: Support for PDF and DOCX formats
@@ -114,10 +118,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Google Gemini](https://deepmind.google/technologies/gemini/) for the AI analysis
 - [Next.js](https://nextjs.org/) for the amazing React framework
 - All other open source libraries used in this project
-
-## ⚡ Live Demo
-
-Check out the live demo: [AI Resume Analyzer](https://resume-analyzer-blond.vercel.app/)
 
 ## 📫 Contact
 
