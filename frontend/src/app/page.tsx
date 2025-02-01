@@ -171,7 +171,7 @@ const ResumeAnalyzer = () => {
               </a>
             </div>
             <p className="text-sm text-gray-400 font-light">
-              © {new Date().getFullYear()} Your Name. All rights reserved.
+              © {new Date().getFullYear()} Akash Godbole. All rights reserved.
             </p>
           </div>
         </div>
