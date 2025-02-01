@@ -89,7 +89,11 @@ def analyze_resume():
             """
             
             # Get analysis from Gemini
-            response = model.generate_content(prompt)
+            response = model.generate_content(
+                prompt,
+                generation_config = genai.GenerationConfig(
+                    temperature=0.2,
+                ))
             analysis = response.text
             
             return jsonify({'analysis': analysis})
