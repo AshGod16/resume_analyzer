@@ -1,66 +1,71 @@
 import React from 'react';
 
 const AnalysisDisplay = ({ analysis }: { analysis: string }) => {
-  // Helper function to convert markdown-style bold to JSX
-  const formatBoldText = (text: string) => {
-    return text.split(/(\*\*.*?\*\*)/).map((part, index) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
+  const formatSection = (content: string) => {
+    return content.split('\n').map((line, index) => {
+      // Main heading (##)
+      if (line.startsWith('##')) {
         return (
-          <span key={index} className="font-bold">
-            {part.slice(2, -2)}
-          </span>
+          <h2 key={index} className="text-2xl font-semibold text-gray-800 mb-6">
+            {line.replace('##', '').trim()}
+          </h2>
         );
       }
-      return part;
-    });
-  };
+      
+      // Numbered section headings (e.g., "**1. Key Skills Match:**")
+      if (line.match(/^\*\*\d+\./)) {
+        return (
+          <h3 key={index} className="text-xl font-semibold text-gray-800 mt-8 mb-4">
+            {line.replace(/\*\*/g, '').trim()}
+          </h3>
+        );
+      }
 
-  // Helper function to format bullet points
-  const formatBulletPoints = (text: string) => {
-    const lines = text.split('\n');
-    return lines.map((line, index) => {
+      // Bullet points
       if (line.trim().startsWith('*')) {
-        return (
-          <li key={index} className="ml-4 mb-2">
-            {formatBoldText(line.slice(1).trim())}
-          </li>
-        );
-      }
-      return (
-        <p key={index} className="mb-4">
-          {formatBoldText(line)}
-        </p>
-      );
-    });
-  };
-
-  // Split the analysis into sections
-  const sections = analysis.split('\n\n');
-
-  return (
-    <div className="space-y-6">
-      {/* Overview Section */}
-      <div className="mb-6">
-        {formatBulletPoints(sections[0])}
-      </div>
-
-      {/* Main Sections */}
-      {sections.slice(1).map((section, index) => {
-        const [title, ...content] = section.split('\n');
-        if (title.includes('**')) {
+        // Sub-headings within bullet points (e.g., "* **Strong Match:**")
+        if (line.includes('**')) {
+          const [_, ...rest] = line.split('**');
+          const subheading = rest[0];
+          const remainingText = rest.slice(1).join('');
           return (
-            <div key={index} className="mb-6">
-              <h3 className="text-lg font-semibold mb-3">
-                {title.replace(/\*\*/g, '')}
-              </h3>
-              <div className="pl-2">
-                {formatBulletPoints(content.join('\n'))}
+            <div key={index} className="flex mb-4 ml-4">
+              <div className="w-4 mt-2">•</div>
+              <div className="flex-1">
+                <span className="font-semibold text-gray-800">{subheading} </span>
+                <span className="text-gray-600 font-light">{remainingText.replace(/\*/g, '').trim()}</span>
               </div>
             </div>
           );
         }
-        return null;
-      })}
+        // Regular bullet points
+        return (
+          <div key={index} className="flex mb-4 ml-4">
+            <div className="w-4 mt-2">•</div>
+            <div className="flex-1 text-gray-600 font-light">
+              {line.slice(1).trim().replace(/\*/g, '')}
+            </div>
+          </div>
+        );
+      }
+
+      // Regular text paragraphs
+      if (line.trim()) {
+        return (
+          <p key={index} className="text-gray-600 font-light mb-4 leading-relaxed">
+            {line.replace(/\*/g, '')}
+          </p>
+        );
+      }
+
+      // Empty lines
+      return <div key={index} className="h-2" />;
+    });
+  };
+
+  return (
+    <div className="space-y-2 font-sans px-2">
+      {formatSection(analysis)}
     </div>
   );
 };
