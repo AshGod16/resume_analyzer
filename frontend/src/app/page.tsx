@@ -155,7 +155,7 @@ const ResumeAnalyzer = () => {
           <div className="flex flex-col items-center space-y-6">
             <p className="text-lg font-light text-gray-600">Connect with me</p>
             <div className="flex space-x-8">
-              <a href="https://github.com/AshGod16" target="_blank" rel="noopener noreferrer" 
+              <a href="https://github.com/AshGod16/resume_analyzer" target="_blank" rel="noopener noreferrer" 
                  className="text-gray-400 hover:text-purple-600 transition-colors duration-300">
                 <Github className="w-6 h-6" />
               </a>
