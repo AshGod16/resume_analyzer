@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload } from 'lucide-react';
+import AnalysisDisplay from '@/components/AnalysisDisplay';
 
 interface AnalysisResponse {
   analysis: string;
@@ -119,8 +120,10 @@ const ResumeAnalyzer = () => {
             <CardTitle>Analysis Results</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[500px] overflow-y-auto whitespace-pre-wrap p-2">
-              {analysis ? analysis : (
+            <div className="h-[500px] overflow-y-auto p-4">
+              {analysis ? (
+                <AnalysisDisplay analysis={analysis} />
+              ) : (
                 <p className="text-gray-500 text-center mt-8">
                   Upload your resume and job description, then click Analyze to see the results here.
                 </p>
