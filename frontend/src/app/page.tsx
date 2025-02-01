@@ -36,8 +36,9 @@ const ResumeAnalyzer = () => {
     formData.append('resume', file);
     formData.append('jobDescription', jobDescription);
 
+    // 'https://resume-analyzer-1vni.onrender.com/analyze'
     try {
-      const response = await fetch('https://resume-analyzer-1vni.onrender.com/analyze', {
+      const response = await fetch('http://127.0.0.1:5000/analyze', {
         method: 'POST',
         body: formData,
       });
